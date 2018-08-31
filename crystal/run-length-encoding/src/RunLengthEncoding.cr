@@ -20,4 +20,21 @@ module RunLengthEncoding
 
   end
 
+  def self.decode(s)
+
+    return s if s.empty?
+
+    rs = s.each_char.reduce({"", ""}) do |acc, ch|
+      if ch.number?
+        {acc[0], "#{acc[1]}#{ch}"}
+      elsif !acc[1].empty?
+        {"#{acc[0]}#{ch.to_s * acc[1].to_i}", ""}
+      else
+        {"#{acc[0]}#{ch.to_s}", ""}
+      end
+    end
+    rs[0]
+
+  end
+
 end
