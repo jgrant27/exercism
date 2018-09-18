@@ -1,14 +1,12 @@
 module Primes
 
   def self.sieve(limit)
-    res = [] of Int32
-    marks = Array.new(limit, false)
-    (2..limit).each_with_index do |n, i|
-      next if marks[i] # Continue if marked as not prime
-      res << n # ... or add prime
-      (2..limit).each_with_index do |o, j|
+    res, marks, range = [] of Int32, Array.new(limit, false), 2..limit
+    range.each_with_index do |n, i|
+      if !marks[i] # Process prime
+        res << n
         # Mark non primes
-        marks[j] = 0 == o % n if !marks[j]
+        range.each_with_index { |o, j| marks[j] = true if 0 == o % n }
       end
     end
     res
