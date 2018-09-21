@@ -11,9 +11,7 @@ module Atbash
       .map {|c| if c.letter? ; cipher[c] ; else ; c ; end }
       .in_groups_of(5, ' ')
       .reduce([] of Array(Char)) {|res,arr| arr << ' '; res << arr}
-      .flatten
-      .reduce("") {|acc, c| acc + c}
-      .strip
+      .flatten.join.strip
   end
 
 end
