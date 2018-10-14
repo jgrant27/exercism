@@ -5,7 +5,6 @@ function count_nucleotide(dict, ch)
 end
 
 function count_nucleotides(strand::AbstractString)
-    res = Dict('A' => 0, 'C' => 0, 'G' => 0, 'T' => 0)
-    !isempty(strand) && reduce(count_nucleotide, strand, init=res)
-    res
+    reduce(count_nucleotide, strand,
+           init=Dict('A' => 0, 'C' => 0, 'G' => 0, 'T' => 0))
 end
