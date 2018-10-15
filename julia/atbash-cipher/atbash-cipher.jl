@@ -1,6 +1,4 @@
-function atbash_char(ch)
-    isletter(ch) ? Char(Int('a')+Int('z')-Int(ch)) : ch
-end
+function atbash_char(ch::Char) isletter(ch) ? Char('a' + ('z' - ch)) : ch end
 
 function encode(input::AbstractString)
     cinput = replace(lowercase(input), r"[^a-z0-9]" => "")
