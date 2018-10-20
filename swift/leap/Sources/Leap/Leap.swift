@@ -1,6 +1,6 @@
 struct Year {
 
-    var isLeapYear = false
+    let isLeapYear: Bool
 
     init(calendarYear: Int) {
         self.isLeapYear = 0 == calendarYear % 4 &&

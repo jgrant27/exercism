@@ -1,10 +1,9 @@
 struct Raindrops {
-    var sounds: String = ""
+    let sounds: String
 
     init(_ n: Int) {
-        if 0 == n % 3 { sounds += "Pling" }
-        if 0 == n % 5 { sounds += "Plang" }
-        if 0 == n % 7 { sounds += "Plong" }
-        if sounds.isEmpty { sounds = String(n) }
+        let _sounds = [(3, "Pling"), (5, "Plang"), (7, "Plong")]
+          .reduce("") { 0 == n % $1.0 ? $0 + $1.1 : $0 }
+        sounds = _sounds.isEmpty ? String(n) : _sounds
     }
 }
