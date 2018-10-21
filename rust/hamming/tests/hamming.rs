@@ -11,7 +11,6 @@ fn test_no_difference_between_identical_strands() {
 }
 
 #[test]
-#[ignore]
 fn test_complete_hamming_distance_in_small_strand() {
     assert_eq!(hamming::hamming_distance("ACT", "GGA"), Some(3));
 }
