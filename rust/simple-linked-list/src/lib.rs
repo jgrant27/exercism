@@ -1,4 +1,4 @@
-struct Node<T> {
+pub struct Node<T> {
     data: T,
     next: Option<Box<Node<T>>>,
 }
@@ -64,9 +64,9 @@ impl<T: Clone> Into<Vec<T>> for SimpleLinkedList<T> {
     fn into(self) -> Vec<T> {
         let mut vec = Vec::new();
         let mut nnode = &self.head;
-        while let Some(node) = nnode { vec.push(node.data.clone());
+        let len = vec.len().clone();
+        while let Some(node) = nnode { vec.insert(len, node.data.clone());
                                        nnode = &node.next; }
-        vec.reverse();
         vec
     }
 }
