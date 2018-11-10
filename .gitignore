@@ -2,3 +2,5 @@
 **/.exercism
 **/.gradle
 **/build
+**/target
+**/Cargo.lock
