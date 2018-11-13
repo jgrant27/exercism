@@ -1,0 +1,109 @@
+#[macro_use] extern crate maplit;
+
+use std::collections::HashMap;
+
+
+pub fn encode(n: u64) -> String {
+    if 0 == n { return "zero".to_string(); }
+
+    let mags: HashMap<usize, &str> = hashmap! {
+        0 => "", 1 => "thousand", 2 => "million", 3 => "billion",
+        4 => "trillion", 5 => "quadrillion", 6 => "quintillion"
+    };
+    let chunks: Vec<u64> = chunk_num(n);
+    println!("{:?}", chunks);
+    let mut res = String::new();
+    for i in (0..chunks.len()).rev() {
+        let group = get_group(chunks[chunks.len()-1-i]);
+        let group = group.trim();
+        res = format!("{} {} {}", &res, group,
+                      match group.len() { 0 => "", _ => mags[&i] });
+        res = res.trim().to_string();
+    }
+    format!("{}", res)
+}
+
+pub fn chunk_num(n: u64) -> Vec<u64> {
+    let ns = n.to_string();
+    let chunks = ns.as_bytes().rchunks_exact(3);
+    let rem = chunks.remainder();
+    let mut res: Vec<u64> = chunks.map(|v| utf8v_to_u64(&v)).collect();
+    if !rem.is_empty() { res.push(utf8v_to_u64(rem)) };
+    res.reverse();
+    res
+}
+
+pub fn utf8v_to_u64(v: &[u8]) -> u64 {
+    str_to_u64(std::str::from_utf8(&v).unwrap())
+}
+
+pub fn utf8v_to_string(v: &[u8]) -> String {
+    std::str::from_utf8(&v).unwrap().to_string()
+}
+
+pub fn rev_string(s: String) -> String {
+    s.chars().rev().collect::<String>()
+}
+
+pub fn str_to_u64(s: &str) -> u64 {
+    s.parse::<u64>().unwrap()
+}
+
+pub fn get_group(n: u64) -> String {
+
+    fn match_group(n: u64) -> String {
+        match n {
+            0   ...   9 => get_unit(n),
+            10  ...  19 => get_teen(n),
+            20  ...  99 => get_tyu(n),
+            100 ... 999 => get_hundred(n),
+            _ => String::new(),
+        }
+    }
+
+    fn get_unit(n: u64) -> String {
+        let units: HashMap<u64, &str> = hashmap! {
+            0 => "",  1 => "one", 2 => "two", 3 => "three", 4 => "four",
+            5 => "five", 6 => "six", 7 => "seven", 8 => "eight", 9 => "nine",
+        };
+        units[&n].to_string()
+    }
+
+    fn get_teen(n: u64) -> String {
+        let teens: HashMap<u64, &str> = hashmap! {
+            10 => "ten", 11 => "eleven", 12 => "twelve", 13 => "thirteen",
+            14 => "fourteen", 15 => "fifteen", 16 => "sixteen", 17 => "seventeen",
+            18 => "eighteen", 19 => "nineteen",
+        };
+        teens[&n].to_string()
+    }
+
+    fn get_ty(n: u64) -> String {
+        let tys: HashMap<u64, &str> = hashmap! {
+            0 => "", 1 => "ten", 2 => "twenty", 3 => "thirty", 4 => "forty",
+            5 => "fifty", 6 => "sixty", 7 => "seventy", 8 => "eighty", 9 => "ninety",
+        };
+        tys[&n].to_string()
+    }
+
+    fn get_tyu(n: u64) -> String {
+        let td = str_to_u64(&n.to_string()[..1]);
+        let tns = match n { 0...9 => get_unit(td), _ => get_ty(td) };
+        let uns = match &n.to_string()[1..] {
+            "" => "".to_string(),
+            "0" => "".to_string(),
+            nds => format!("-{}", get_unit(str_to_u64(nds)))
+        };
+        let res = format!("{}{}", tns, uns);
+        match res.as_str() { "0" => res.to_string(),
+                              _ => format!(" {}", res) }
+    }
+
+    fn get_hundred(n: u64) -> String {
+        let  hd = get_unit(str_to_u64(&n.to_string()[..1]));
+        let rds = get_tyu(str_to_u64(&n.to_string()[1..]));
+        format!("{}{}{}", hd, " hundred", rds)
+    }
+
+    match_group(n)
+}
