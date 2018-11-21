@@ -1,10 +1,11 @@
 pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
-
     let mut max_inds = Vec::new();
 
     // For each row in the matrix ...
     for ri in 0..input.len() {
-        if input[ri].is_empty() { continue; }
+        if input[ri].is_empty() {
+            continue;
+        }
         let mut col_max_is = Vec::new();
         // ... obtain column indices for max vals ...
         for ci in 0..input[ri].len() {
@@ -28,12 +29,10 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
                 if row_min_is.is_empty() {
                     row_min_is.push(rj);
                     continue;
-                } else if
-                    input[rj][col_max_i] < input[row_min_is[0]][col_max_i] {
+                } else if input[rj][col_max_i] < input[row_min_is[0]][col_max_i] {
                     row_min_is.clear();
                     row_min_is.push(rj);
-                } else if
-                    input[rj][col_max_i] == input[row_min_is[0]][col_max_i] {
+                } else if input[rj][col_max_i] == input[row_min_is[0]][col_max_i] {
                     row_min_is.push(rj);
                 }
             }
@@ -47,5 +46,4 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
     }
 
     max_inds
-
 }

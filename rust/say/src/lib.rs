@@ -1,9 +1,14 @@
 pub fn encodety(n: u64, s: &str) -> String {
-    match n % 10 { 0 => s.to_string(), _ => format!("{}-{}", s, &encodeaux(n % 10)) }
+    match n % 10 {
+        0 => s.to_string(),
+        _ => format!("{}-{}", s, &encodeaux(n % 10)),
+    }
 }
 
 pub fn encodenz(n: u64, o: u64, s: &str) -> String {
-    format!("{} {} {}", encodeaux(n / o), s, &encodeaux(n % o)).trim().to_string()
+    format!("{} {} {}", encodeaux(n / o), s, &encodeaux(n % o))
+        .trim()
+        .to_string()
 }
 
 pub fn encodeaux(n: u64) -> String {
@@ -38,15 +43,15 @@ pub fn encodeaux(n: u64) -> String {
         100...999 => encodenz(n, 100, "hundred"),
         1_000...999_999 => encodenz(n, 1_000, "thousand"),
         1_000_000...999_999_999 => encodenz(n, 1_000_000, "million"),
-        1_000_000_000...999_999_999_999 =>
-            encodenz(n, 1_000_000_000, "billion"),
-        1_000_000_000_000...999_999_999_999_999 =>
-            encodenz(n, 1_000_000_000_000, "trillion"),
-        1_000_000_000_000_000...999_999_999_999_999_999 =>
-            encodenz(n, 1_000_000_000_000_000, "quadrillion"),
-        1_000_000_000_000_000_000...std::u64::MAX =>
-            encodenz(n, 1_000_000_000_000_000_000, "quintillion"),
-        _ => "".to_string()
+        1_000_000_000...999_999_999_999 => encodenz(n, 1_000_000_000, "billion"),
+        1_000_000_000_000...999_999_999_999_999 => encodenz(n, 1_000_000_000_000, "trillion"),
+        1_000_000_000_000_000...999_999_999_999_999_999 => {
+            encodenz(n, 1_000_000_000_000_000, "quadrillion")
+        }
+        1_000_000_000_000_000_000...std::u64::MAX => {
+            encodenz(n, 1_000_000_000_000_000_000, "quintillion")
+        }
+        _ => "".to_string(),
     };
     res.trim().to_string()
 }
@@ -54,6 +59,6 @@ pub fn encodeaux(n: u64) -> String {
 pub fn encode(n: u64) -> String {
     match n {
         0 => "zero".to_string(),
-        _ => encodeaux(n)
+        _ => encodeaux(n),
     }
 }

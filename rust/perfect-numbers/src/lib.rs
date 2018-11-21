@@ -6,17 +6,19 @@ pub enum Classification {
 }
 
 pub fn aliquot_sum(n: u64) -> u64 {
-
     let mut asum = 0;
     for i in 1..n {
-        if 0 == n % i && n != i { asum += i; }
+        if 0 == n % i && n != i {
+            asum += i;
+        }
     }
     return asum;
 }
 
 pub fn classify(num: u64) -> Option<Classification> {
-
-    if 0 == num { return None; }
+    if 0 == num {
+        return None;
+    }
     let asum = aliquot_sum(num);
     if asum < num {
         Some(Classification::Deficient)
@@ -25,5 +27,4 @@ pub fn classify(num: u64) -> Option<Classification> {
     } else {
         Some(Classification::Abundant)
     }
-
 }

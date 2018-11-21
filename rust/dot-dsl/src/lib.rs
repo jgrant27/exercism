@@ -1,21 +1,26 @@
 #[macro_use]
 extern crate maplit;
 
-
 pub mod graph {
 
-    use std::collections::HashMap;
     use graph::graph_items::edge::Edge;
     use graph::graph_items::node::Node;
+    use std::collections::HashMap;
 
     #[derive(Debug, Clone, PartialEq, Eq)]
-    pub struct Graph { pub nodes: Vec<Node>,
-                       pub edges: Vec<Edge>,
-                       pub attrs: HashMap<String, String> }
+    pub struct Graph {
+        pub nodes: Vec<Node>,
+        pub edges: Vec<Edge>,
+        pub attrs: HashMap<String, String>,
+    }
 
     impl Graph {
         pub fn new() -> Graph {
-            Graph{ nodes: vec![], edges: vec![], attrs: hashmap!{} }
+            Graph {
+                nodes: vec![],
+                edges: vec![],
+                attrs: hashmap! {},
+            }
         }
 
         pub fn with_nodes(mut self, nodes: &[Node]) -> Self {
@@ -28,9 +33,12 @@ pub mod graph {
             self
         }
 
-        pub fn with_attrs(mut self, attrs: &[(&str,&str)]) -> Self {
-            self.attrs.extend(attrs.iter().map(|(k,v)| {(String::from(*k),
-                                                         String::from(*v))}));
+        pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
+            self.attrs.extend(
+                attrs
+                    .iter()
+                    .map(|(k, v)| (String::from(*k), String::from(*v))),
+            );
             self
         }
 
@@ -44,20 +52,27 @@ pub mod graph {
             use std::collections::HashMap;
 
             #[derive(Debug, Clone, PartialEq, Eq)]
-            pub struct Edge { pub src: String,
-                              pub dest: String,
-                              pub attrs: HashMap<String, String> }
+            pub struct Edge {
+                pub src: String,
+                pub dest: String,
+                pub attrs: HashMap<String, String>,
+            }
 
             impl Edge {
-                pub fn new (src: &str, dest: &str) -> Self {
-                    Edge { src: String::from(src),
-                           dest: String::from(dest),
-                           attrs: hashmap!{} }
+                pub fn new(src: &str, dest: &str) -> Self {
+                    Edge {
+                        src: String::from(src),
+                        dest: String::from(dest),
+                        attrs: hashmap! {},
+                    }
                 }
 
-                pub fn with_attrs(mut self, attrs: &[(&str,&str)]) -> Self {
-                    self.attrs.extend(attrs.iter().map(|(k,v)| {(String::from(*k),
-                                                                 String::from(*v))}));
+                pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
+                    self.attrs.extend(
+                        attrs
+                            .iter()
+                            .map(|(k, v)| (String::from(*k), String::from(*v))),
+                    );
                     self
                 }
 
@@ -71,16 +86,25 @@ pub mod graph {
             use std::collections::HashMap;
 
             #[derive(Debug, Clone, PartialEq, Eq)]
-            pub struct Node { pub name: String, pub attrs: HashMap<String, String> }
+            pub struct Node {
+                pub name: String,
+                pub attrs: HashMap<String, String>,
+            }
 
             impl Node {
-                pub fn new (name: &str) -> Self {
-                    Node { name: String::from(name), attrs: hashmap! {} }
+                pub fn new(name: &str) -> Self {
+                    Node {
+                        name: String::from(name),
+                        attrs: hashmap! {},
+                    }
                 }
 
-                pub fn with_attrs(mut self, attrs: &[(&str,&str)]) -> Self {
-                    self.attrs.extend(attrs.iter().map(|(k,v)| {(String::from(*k),
-                                                                 String::from(*v))}));
+                pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
+                    self.attrs.extend(
+                        attrs
+                            .iter()
+                            .map(|(k, v)| (String::from(*k), String::from(*v))),
+                    );
                     self
                 }
 

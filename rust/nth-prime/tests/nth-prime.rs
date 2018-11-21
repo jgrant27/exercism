@@ -16,6 +16,7 @@ fn test_sixth_prime() {
 }
 
 #[test]
+#[ignore]
 fn test_big_prime() {
     assert_eq!(np::nth(10000), 104743);
 }

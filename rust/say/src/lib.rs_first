@@ -1,10 +1,12 @@
-#[macro_use] extern crate maplit;
+#[macro_use]
+extern crate maplit;
 
 use std::collections::HashMap;
 
-
 pub fn encode(n: u64) -> String {
-    if 0 == n { return "zero".to_string(); }
+    if 0 == n {
+        return "zero".to_string();
+    }
 
     let mags: HashMap<usize, &str> = hashmap! {
         0 => "", 1 => "thousand", 2 => "million", 3 => "billion",
@@ -14,10 +16,17 @@ pub fn encode(n: u64) -> String {
     println!("{:?}", chunks);
     let mut res = String::new();
     for i in (0..chunks.len()).rev() {
-        let group = get_group(chunks[chunks.len()-1-i]);
+        let group = get_group(chunks[chunks.len() - 1 - i]);
         let group = group.trim();
-        res = format!("{} {} {}", &res, group,
-                      match group.len() { 0 => "", _ => mags[&i] });
+        res = format!(
+            "{} {} {}",
+            &res,
+            group,
+            match group.len() {
+                0 => "",
+                _ => mags[&i],
+            }
+        );
         res = res.trim().to_string();
     }
     format!("{}", res)
@@ -28,7 +37,9 @@ pub fn chunk_num(n: u64) -> Vec<u64> {
     let chunks = ns.as_bytes().rchunks_exact(3);
     let rem = chunks.remainder();
     let mut res: Vec<u64> = chunks.map(|v| utf8v_to_u64(&v)).collect();
-    if !rem.is_empty() { res.push(utf8v_to_u64(rem)) };
+    if !rem.is_empty() {
+        res.push(utf8v_to_u64(rem))
+    };
     res.reverse();
     res
 }
@@ -50,13 +61,12 @@ pub fn str_to_u64(s: &str) -> u64 {
 }
 
 pub fn get_group(n: u64) -> String {
-
     fn match_group(n: u64) -> String {
         match n {
-            0   ...   9 => get_unit(n),
-            10  ...  19 => get_teen(n),
-            20  ...  99 => get_tyu(n),
-            100 ... 999 => get_hundred(n),
+            0...9 => get_unit(n),
+            10...19 => get_teen(n),
+            20...99 => get_tyu(n),
+            100...999 => get_hundred(n),
             _ => String::new(),
         }
     }
@@ -88,19 +98,24 @@ pub fn get_group(n: u64) -> String {
 
     fn get_tyu(n: u64) -> String {
         let td = str_to_u64(&n.to_string()[..1]);
-        let tns = match n { 0...9 => get_unit(td), _ => get_ty(td) };
+        let tns = match n {
+            0...9 => get_unit(td),
+            _ => get_ty(td),
+        };
         let uns = match &n.to_string()[1..] {
             "" => "".to_string(),
             "0" => "".to_string(),
-            nds => format!("-{}", get_unit(str_to_u64(nds)))
+            nds => format!("-{}", get_unit(str_to_u64(nds))),
         };
         let res = format!("{}{}", tns, uns);
-        match res.as_str() { "0" => res.to_string(),
-                              _ => format!(" {}", res) }
+        match res.as_str() {
+            "0" => res.to_string(),
+            _ => format!(" {}", res),
+        }
     }
 
     fn get_hundred(n: u64) -> String {
-        let  hd = get_unit(str_to_u64(&n.to_string()[..1]));
+        let hd = get_unit(str_to_u64(&n.to_string()[..1]));
         let rds = get_tyu(str_to_u64(&n.to_string()[1..]));
         format!("{}{}{}", hd, " hundred", rds)
     }

@@ -17,7 +17,9 @@ pub fn sing(start: i32, end: i32) -> String {
     let mut s = start;
     while s >= end {
         song.push_str(verse(s).as_str());
-        if s > end { song.push_str("\n"); }
+        if s > end {
+            song.push_str("\n");
+        }
         s -= 1;
     }
     return song;
