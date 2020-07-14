@@ -9,3 +9,6 @@
 # Python
 **/__pycache__
 *.py[cod]
+
+# Nim
+**/*_test
